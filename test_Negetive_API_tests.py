@@ -7,15 +7,14 @@ import requests
 
 ENDPOINT = "http://localhost:5000/users"
 
-#get all users sored in DB
+
 def test_get_user_details():
     payload_option = get_invalid_values()
     for item in payload_option:
         user_id = item[0]
         get_user_response = get_user(user_id)
         assert get_user_response.status_code == 404
-        
-#add user with exists ID
+
 def test_add_user_exists_id():
     payload = user_payload()
     create_user_response = add_user(payload)
@@ -32,8 +31,7 @@ def test_add_user_exists_id():
         raise Exception(f"User added with exists ID,{payload['id']}")
     else:
         assert create_user_response.status_code == 404
-        
-#add user with invalid values
+
 def test_add_user():
     payload_option = get_invalid_values()
     for item in payload_option:
@@ -47,7 +45,7 @@ def test_add_user():
         else:
             assert create_user_response.status_code == 404
 
-#edit user with exists ID
+
 def test_edit_id_user():
     payload = user_payload()
     create_user_response = add_user(payload)
@@ -65,7 +63,7 @@ def test_edit_id_user():
     else:
         assert update_user_response.status_code == 404
 
-#edit user with invalid ID
+
 def test_edit_user():
     payload = user_payload()
     create_user_response = add_user(payload)
@@ -81,8 +79,8 @@ def test_edit_user():
         raise Exception(f"ERROR ... Name field has been updated with invalid values")
     else:
         assert update_user_response.status_code == 404
-        
-#delete user using invalid ID data type cover non exists ID test to
+
+#delete user using invalid ID data type
 def test_delete_user():
     payload_option = get_invalid_values()
     for item in payload_option:
@@ -94,7 +92,6 @@ def test_delete_user():
             assert delete_user_response.status_code == 404
         else:
             assert delete_user_response.status_code == 500
-
 
 def add_user(payload):
     return requests.post(f"{ENDPOINT}",json=payload)
