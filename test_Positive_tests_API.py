@@ -6,12 +6,12 @@ ENDPOINT = "http://localhost:5000/users"
 def test_get_all_users():
     response = requests.get(ENDPOINT)
     assert response.status_code == 200
-
-def get_user_by_id():
-    new_payload = user_payload()
-    create_user_response = add_user(new_payload)
+    
+def test_get_user_by_id():
+    new_payload = generate_id()
+    create_user_response = add_user(new_payload)#create new user
     assert create_user_response.status_code == 200
-    get_user_response = get_user(new_payload['id'])
+    get_user_response = get_user(new_payload['id']) #seraching the new user by passing the new ID
     assert get_user_response.status_code == 200
     get_user_data = get_user_response.json()
     assert get_user_data['id'] == new_payload['id']
@@ -19,14 +19,12 @@ def get_user_by_id():
 
 
 
-#Adding new user
+#create new user
 def test_add_user():
     try:
-    #craete new user
-        payload = user_payload()
+        payload = generate_id()
         create_user_response = add_user(payload)
-        #Checking the status and the values returned
-        assert create_user_response.status_code == 200
+        assert create_user_response.status_code == 200    #Checking the status and the values returned
         data = create_user_response.json()
         assert payload['id'] == data['id']
         assert payload['name'] == data['name']
@@ -44,7 +42,7 @@ def test_add_user():
 
 #Edit User
 def test_edit_user():
-    payload = user_payload()
+    payload = generate_id()
     create_user_response = add_user(payload)
     user_id = create_user_response.json()['id']
 
@@ -57,6 +55,7 @@ def test_edit_user():
     #verifing the returend Values
     assert data['id'] == user_id
     assert data['name'] == user_data['name']
+    #checking if the data was saved
     get_user_response = get_user(user_id)
     assert get_user_response.status_code == 200
     edited_user = get_user_response.json()
@@ -64,9 +63,8 @@ def test_edit_user():
     assert user_data['name'] == edited_user['name']
 
 
-
 def test_delete_user():
-    payload = user_payload()
+    payload = generate_id()
     create_user_response = add_user(payload)
     assert  create_user_response.status_code == 200
     data = create_user_response.json()
@@ -104,7 +102,7 @@ def get_list_user(user_id):
 def delete_user(user_id):
     return requests.delete(f"{ENDPOINT}/{user_id}")
 
-def user_payload():
+def generate_id():
     user_id = f"test_user_{uuid.uuid4().hex}"
     return {
       "name": "Daniel",
