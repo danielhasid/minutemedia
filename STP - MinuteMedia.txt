@@ -1,0 +1,56 @@
+MinuteMedia STP 
+
+Pre Condition:
+ENDPOINT = "http://localhost:5000/users"
+
+Senity test
+End Point reached
+
+Get User all users
+returend list is gt then 0
+
+Get user by ID - Positive
+searching an exists ID
+cheking the returned value
+
+Get user by ID - Negative
+searching NOT exists ID and invalid data type example["", None,True,False,235313]
+
+
+Adding user - Positive
+creating user with valid payload values
+check the status code
+check the returend values
+check if user stored correctlly in DB using the GET user by ID
+
+Adding user - Negative
+Adding user with invalid data types in payload (not string) example["", None,True,False,235313]
+check the status code
+check if the users stored in DB
+Adding user with exists ID (should be uniqe)
+
+Edit user -Positive
+create new user
+pass the new ID to edit user API
+check status code
+confirm the returned values
+pass the new ID to GET by ID API and check if the new value is stored
+
+Edit user - Negative
+Edit user with invalid data types in payload (not string) example["", None,True,False,235313]
+Edit user with exists ID
+Edit user with invalid name data
+
+Delete user - Positive
+Create new user and delete him by the delete user API
+check the status code
+check the return values
+run the GET API the verify thet the user is not in DB
+
+Delete user - Negative
+Delete user with invalid ID example["", None,True,False,235313]
+Delete user with none exists ID
+check the status and the returned response
+
+
+
