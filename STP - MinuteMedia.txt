@@ -22,6 +22,7 @@ creating user with valid payload values
 check the status code
 check the returend values
 check if user stored correctlly in DB using the GET user by ID
+Check if the user added only once
 
 Adding user - Negative
 Adding user with invalid data types in payload (not string) example["", None,True,False,235313]
