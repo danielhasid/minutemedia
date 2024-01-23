@@ -1,4 +1,6 @@
 import uuid
+from collections import Counter
+
 import requests
 
 ENDPOINT = "http://localhost:5000/users"
@@ -7,7 +9,6 @@ def test_get_all_users():
     response = requests.get(ENDPOINT)
     assert response.status_code == 200
 
-#get user by ID
 def test_get_user_by_id():
     new_payload = generate_id()
     create_user_response = add_user(new_payload)#create new user
@@ -36,6 +37,8 @@ def test_add_user():
         get_user_response = get_user(payload['id'])
         assert get_user_response.status_code == 200
         get_user_data = get_user_response.json()
+        count_user = Counter(list(get_user_data)) #Check if the user added only once
+        assert count_user['id'] == 1
         assert get_user_data['id'] == payload['id']
         assert get_user_data['name'] == payload['name']
     except:
@@ -63,7 +66,7 @@ def test_edit_user():
     assert user_id == edited_user['id']
     assert user_data['name'] == edited_user['name']
 
-#delete user
+
 def test_delete_user():
     payload = generate_id()
     create_user_response = add_user(payload)
